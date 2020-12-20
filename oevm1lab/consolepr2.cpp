@@ -1,5 +1,4 @@
 #include <iostream>
-#include "ncursesw/ncurses.h"
 
 using namespace std;
 
