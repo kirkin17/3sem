@@ -1,36 +1,65 @@
 #include <iostream>
-#include <string>
 using namespace std;
+
 
 int main()
 {
-    int T;
-    cin >> T;
-    for(int i = 0; i < T; i++)
-    {
-        int n;
-        cin >> n;
-        int sum[n];
-        int val = 0;
-        int a;
-        for(int j = 0; j < n; j++)
+	int T, N, max1, max2;
+	cin >> T;
+	while(T > 0)
+    {		
+		cin >> N;
+		int A[N];
+		for(int i = 0; i < N; i++)
         {
-            cin >> a;
-            val += a;
-            sum[i] = val;
-        }
-        if(n == 1) cout << "YES\n";
-        if(n == 2) cout << "NO\n";
-        bool YES;
-        for(int j = 1; j < n; j++)
+			cin >> A[i];
+		}
+		max1 = INT_MIN; 
+		max2 = INT_MIN;
+
+		bool positive = false;
+		for(int i = 0; i < N; i++)
         {
-            if(sum[i - 1] == (sum[n - 1] - sum[i]))
+			if(max2 > 0)
             {
-                cout << "YES\n";
-                YES = false;
-                break;
-            }
-        }
-        if(YES) cout << "NO\n";
-    }
+				positive = true;
+			}
+			if(max2 > 0 && A[i] > 0)
+            {
+				max2 += A[i];
+			} else if(max2 < 0 && A[i] > max2)
+            {
+				max2 = A[i];
+			}
+		}
+		
+		if(positive)
+        {		
+			for(int i = 1; i < N; i++)
+            {
+				if(A[i-1] + A[i] > 0)
+                {
+					A[i] = A[i-1] + A[i];
+				} else
+                {
+					A[i] = 0;
+				}
+			}
+		}
+        else
+        {
+			
+			max1 = max2;
+		}
+		for(int i = 0; i < N; i++)
+        {
+			if(A[i] > max1)
+            {
+				max1 = A[i];
+			}
+		}
+		cout << max1 << " " << max2 << "\n";
+		T--;
+	}
+    return 0;
 }

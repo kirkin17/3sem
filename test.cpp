@@ -1,40 +1,44 @@
+#include <termios.h>
+#include <unistd.h>
+#include <stdio.h>
 #include <iostream>
-using namespace std;
+
+
+/* reads from keypress, doesn't echo */
+int getch(void)
+{
+    struct termios oldattr, newattr;
+    int ch;
+    tcgetattr( STDIN_FILENO, &oldattr );
+    newattr = oldattr;
+    newattr.c_lflag &= ~( ICANON | ECHO );
+    tcsetattr( STDIN_FILENO, TCSANOW, &newattr );
+    ch = getchar();
+    tcsetattr( STDIN_FILENO, TCSANOW, &oldattr );
+    return ch;
+}
+
+/* reads from keypress, echoes */
+int getche(void)
+{
+    struct termios oldattr, newattr;
+    int ch;
+    tcgetattr( STDIN_FILENO, &oldattr );
+    newattr = oldattr;
+    newattr.c_lflag &= ~( ICANON );
+    tcsetattr( STDIN_FILENO, TCSANOW, &newattr );
+    ch = getchar();
+    tcsetattr( STDIN_FILENO, TCSANOW, &oldattr );
+    return ch;
+}
 
 int main()
 {
-  	short Short;
-	bool num;
-	std::cout << "Введите число" << endl;
-	cin >> Short;
-	for (int i = sizeof(short) * 8 - 1; i >= 0; --i)
-	{
-		num = (Short & (1 << i));
-		std::cout << num;
-	}
-  	
-	
-
-	while(1)
-	{
-		cout << endl;
-		int bits;
-		cout << "Номер бита: ";
-		cin >> bits;
-		for (int i = sizeof(short) * 8 - 1; i >= 0; --i)
-		{
-			if (i == bits)
-			{
-				Short = (Short ^ (0 << bits));
-				num = (Short ^ (1 << bits));
-				cout << num;
-				continue;
-			} 
-			num = (Short & (1 << i));
-			std::cout << num;
-		}
-		cout << endl;
-	}
-	
-
+    char s = 0;
+    while(s != 's')
+    {
+        std::cout << "enter s\n";
+        s = getch();
+    }
+    std::cout << "out";
 }

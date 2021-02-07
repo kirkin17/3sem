@@ -15,11 +15,6 @@ struct stack
         TOP = -1;
     }
 
-    ~stack()
-    {
-        delete[] DATA;
-    }
-
     bool push(int a)
     {
         if (full()) return false;
