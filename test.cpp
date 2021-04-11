@@ -1,44 +1,14 @@
-#include <termios.h>
-#include <unistd.h>
-#include <stdio.h>
 #include <iostream>
+#include <string>
+using namespace std;
 
-
-/* reads from keypress, doesn't echo */
-int getch(void)
-{
-    struct termios oldattr, newattr;
-    int ch;
-    tcgetattr( STDIN_FILENO, &oldattr );
-    newattr = oldattr;
-    newattr.c_lflag &= ~( ICANON | ECHO );
-    tcsetattr( STDIN_FILENO, TCSANOW, &newattr );
-    ch = getchar();
-    tcsetattr( STDIN_FILENO, TCSANOW, &oldattr );
-    return ch;
-}
-
-/* reads from keypress, echoes */
-int getche(void)
-{
-    struct termios oldattr, newattr;
-    int ch;
-    tcgetattr( STDIN_FILENO, &oldattr );
-    newattr = oldattr;
-    newattr.c_lflag &= ~( ICANON );
-    tcsetattr( STDIN_FILENO, TCSANOW, &newattr );
-    ch = getchar();
-    tcsetattr( STDIN_FILENO, TCSANOW, &oldattr );
-    return ch;
-}
 
 int main()
 {
-    char s = 0;
-    while(s != 's')
-    {
-        std::cout << "enter s\n";
-        s = getch();
-    }
-    std::cout << "out";
+    string str1 = "abcdefgh";
+	string str2 = "";
+	for(short i = 1; i < str1.size(); i++)
+	{
+		str2 += str1[i];
+	}
 }
